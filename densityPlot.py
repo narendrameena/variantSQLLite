@@ -10,24 +10,48 @@ import pandas as pd
 from scipy import stats, integrate
 import matplotlib.pyplot as plt
 import seaborn as sns
+from operator import itemgetter
 sns.set(color_codes=True)
-
-
 
 #path to db 
 DB = '/Users/naru/Documents/BISR/WESPipelinePaper/benchmarking/ERR034544/gatk/ERR034544.GATK.haplotypecaller.raw.default.snpeff.ann.new.db'
-#path to gemini 
-GEMINI = '/Users/naru/Documents/BISR/software/gemini/bin/gemini'
+
 
 conn = sqlite3.connect(DB)
-print "Opened database successfully";
-cursor = conn.execute('''select depth from variants''')
-data = cursor.fetchall()
-readFreq = map(itemgetter(0), data)
-print readFreq
-print len(readFreq)
-sns.distplot(readFreq, hist=False, rug=True);
+print("Opened database successfully")
 
-print "Operation done successfully";
+#varients presents in dbsnp 1kg and esp 
+variantInDB = conn.execute('''select aaf from variants where in_esp=1 AND in_dbsnp=1 AND in_1kg=1''').fetchall()
+variantInDB = list(map(itemgetter(0), variantInDB))
+#print(variantInDB)
+print(len(variantInDB))
+
+#De novo variants 
+variantNotInDB = conn.execute('''select aaf from variants where in_esp=0 AND in_dbsnp=0 AND in_1kg=0''').fetchall()
+variantNotInDB = list(map(itemgetter(0), variantNotInDB))
+#print(variantNotInDB)
+print(len(variantNotInDB))
+
+
+##multiple curves on one plot 
+fig, ax = plt.subplots()
+
+#plotes for known variants 
+sns.distplot(variantInDB, hist=False, rug=False, ax=ax,color="k");
+
+#denovo variants 
+sns.distplot(variantNotInDB, hist=False, rug=False, ax=ax,color="r");
+
+
+# labling plotes 
+plt.xlabel('Variant Read Frequency')
+plt.ylabel('Density')
+plt.xlim(0, 1.2)
+plt.show()
+
+# message for complet job 
+print("Operation done successfully")
+
+# close db connection 
 conn.close()
 

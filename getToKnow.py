@@ -33,8 +33,8 @@ print "Opened database successfully";
 cursor = conn.execute('''select depth from variants''')
 data = cursor.fetchall()
 readFreq = map(itemgetter(0), data)
-print readFreq
-sns.distplot(readFreq, hist=False, rug=True);
+#print readFreq
+#sns.distplot(readFreq, hist=False, rug=True);
 
 print "Operation done successfully";
 conn.close()
@@ -43,6 +43,6 @@ conn.close()
 
 #direct from gemini 
 #running gemini commmand and caching the output in a variable 
-output = subprocess.check_output(GEMINI + ' query -q "select depth from variants "  --header ' + DB, shell=True)
+output = subprocess.check_output(GEMINI + ' query -q "select sub_type, count(*) from variants "  --header ' + DB, shell=True)
 #print "program output:", output
-x= output
+print(output)
