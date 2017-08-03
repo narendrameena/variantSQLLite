@@ -1,6 +1,7 @@
 #!/usr/bin/python
 #author narumeena 
-#description intial script to play with a varait sqlite db genrated by gemini : cheers
+#description density plot for noval varients that ae not reported in 1000k genome project, exome seqencing project and dbsnp or exac dataset 
+
 
 import subprocess
 import sqlite3
@@ -9,10 +10,7 @@ import pandas as pd
 from scipy import stats, integrate
 import matplotlib.pyplot as plt
 import seaborn as sns
-from operator import itemgetter
 sns.set(color_codes=True)
-
-
 
 
 
@@ -21,28 +19,15 @@ DB = '/Users/naru/Documents/BISR/WESPipelinePaper/benchmarking/ERR034544/gatk/ER
 #path to gemini 
 GEMINI = '/Users/naru/Documents/BISR/software/gemini/bin/gemini'
 
-#running gemini commmand and caching the output in a variable 
-output = subprocess.check_output(GEMINI + ' query -q "select * from variants where is_lof = 1 and in_dbsnp = 0" --header '+ DB, shell=True)
-#print "program output:", output
-
-
-#query direct to db 
-
 conn = sqlite3.connect(DB)
 print "Opened database successfully";
 cursor = conn.execute('''select depth from variants''')
 data = cursor.fetchall()
 readFreq = map(itemgetter(0), data)
 print readFreq
+print len(readFreq)
 sns.distplot(readFreq, hist=False, rug=True);
 
 print "Operation done successfully";
 conn.close()
 
-
-
-#direct from gemini 
-#running gemini commmand and caching the output in a variable 
-output = subprocess.check_output(GEMINI + ' query -q "select depth from variants "  --header ' + DB, shell=True)
-#print "program output:", output
-x= output
