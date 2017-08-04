@@ -11,3 +11,6 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 from operator import itemgetter
 sns.set(color_codes=True)
+
+
+DB = '/Users/naru/Documents/BISR/WESPipelinePaper/benchmarking/ERR034544/gatk/ERR034544.GATK.unifiedgenotyper.raw.default.new.vep.ann.db'

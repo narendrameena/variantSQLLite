@@ -14,8 +14,7 @@ from operator import itemgetter
 sns.set(color_codes=True)
 
 #path to db 
-DB = '/Users/naru/Documents/BISR/WESPipelinePaper/benchmarking/ERR034544/gatk/ERR034544.GATK.haplotypecaller.raw.default.snpeff.ann.new.db'
-
+DB = '/Users/naru/Documents/BISR/WESPipelinePaper/benchmarking/ERR034544/gatk/ERR034544.GATK.unifiedgenotyper.raw.default.new.vep.ann.db'
 
 conn = sqlite3.connect(DB)
 print("Opened database successfully")

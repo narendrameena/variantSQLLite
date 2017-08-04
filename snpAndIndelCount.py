@@ -13,8 +13,7 @@ from operator import itemgetter
 sns.set(color_codes=True)
 
 #path to db 
-DB = '/Users/naru/Documents/BISR/WESPipelinePaper/benchmarking/ERR034544/gatk/ERR034544.GATK.haplotypecaller.raw.default.snpeff.ann.new.db'
-
+DB = '/Users/naru/Documents/BISR/WESPipelinePaper/benchmarking/ERR034544/gatk/ERR034544.GATK.haplotypecaller.raw.default.new.vep.ann.db'
 
 conn = sqlite3.connect(DB)
 print("Opened database successfully")
@@ -22,11 +21,12 @@ print("Opened database successfully")
 
 
 #snp count 
-snpCount = conn.execute('''select type, count(*)  from variants''')
-for row in snpCount:
-    print "ID = ", row[1], "\n"
-#.fetchall()
+#snpCount = conn.execute('''select type,count(*) from variants''').fetchall()
+snpCount = conn.execute('''select count(*) from variants where type="snp"''').fetchall()
+snpCount = list(map(itemgetter(0), snpCount))[0]
+
 print(snpCount)
-snpCount = list(map(itemgetter(0), snpCount))
-print(snpCount)
-print(len(snpCount))
+
+
+
+

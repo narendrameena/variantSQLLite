@@ -17,7 +17,7 @@ sns.set(color_codes=True)
 
 
 #path to db 
-DB = '/Users/naru/Documents/BISR/WESPipelinePaper/benchmarking/ERR034544/gatk/ERR034544.GATK.haplotypecaller.raw.default.snpeff.ann.new.db'
+DB = '/Users/naru/Documents/BISR/WESPipelinePaper/benchmarking/ERR034544/gatk/ERR034544.GATK.unifiedgenotyper.raw.default.new.vep.ann.db'
 #path to gemini 
 GEMINI = '/Users/naru/Documents/BISR/software/gemini/bin/gemini'
 
@@ -30,9 +30,9 @@ output = subprocess.check_output(GEMINI + ' query -q "select * from variants whe
 
 conn = sqlite3.connect(DB)
 print "Opened database successfully";
-cursor = conn.execute('''select depth from variants''')
-data = cursor.fetchall()
-readFreq = map(itemgetter(0), data)
+#cursor = conn.execute('''select depth from variants''')
+#data = cursor.fetchall()
+#readFreq = map(itemgetter(0), data)
 #print readFreq
 #sns.distplot(readFreq, hist=False, rug=True);
 
@@ -41,8 +41,14 @@ conn.close()
 
 
 
+
 #direct from gemini 
 #running gemini commmand and caching the output in a variable 
-output = subprocess.check_output(GEMINI + ' query -q "select sub_type, count(*) from variants "  --header ' + DB, shell=True)
+#output = subprocess.check_output(GEMINI + ' query -q "select count(*) from variants where is_lof =  and in_dbsnp = 1"  --header ' + DB, shell=True)
+
+
+output = subprocess.check_output(GEMINI + ' de_novo --columns "chrom,start,end" ' + DB, shell=True)
+
+ #gemini de_novo --columns "chrom,start,end" test.de_novo.db
 #print "program output:", output
 print(output)
