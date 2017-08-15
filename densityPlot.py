@@ -11,12 +11,11 @@ from scipy import stats, integrate
 import matplotlib.pyplot as plt
 import seaborn as sns
 from operator import itemgetter #
-sns.set(color_codes=True)
 import csv
-
 import os
 import re
 import fnmatch
+sns.set(color_codes=True) # seaborn library 
 
 #getting list of all db from sub-directories 
 DBFolders="/Users/naru/Documents/BISR/WESPipelinePaper/benchmarking/ERR091571/"
