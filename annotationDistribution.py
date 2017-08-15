@@ -27,7 +27,7 @@ for root, dirs, files in os.walk(DBFolders):
 print(results)
 write_file = "data/annotationDistribution.csv"
 with open(write_file, "wb") as outputFile:
-    #printing all results a single graph 
+    #printing all results a single file 
     outputFile.write("vcf"+ "," + "commonVariant" +"," + "novalVariantNotDamaging" + ","+ "novalVariantWithDamaging" + "," + "lowFreqVariantNotDamaging" + "," + "lowFreqVariantWithDamaging" +'\n')
     for db in results:
         #make a connection to sqlite db
